@@ -1,6 +1,6 @@
 import discord
 from loguru import logger
-
+import random
 import json
 
 class Sparkasse:
@@ -22,7 +22,8 @@ class Sparkasse:
                         await message.channel.send('User is already registered in database!')
                     else:
                         await message.channel.send('Registering user...')
-                        data[str(message.author.id)] = 123456
+                        data[str(message.author.id)] = random.randint(100000, 999999)
+
                         with open('users.json', 'w') as users_data:
                             json.dump(data, users_data)
                             
