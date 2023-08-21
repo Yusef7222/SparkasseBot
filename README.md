@@ -1,2 +1,2 @@
-# Sparkassen
+# SparkasseBot
 Banking System
