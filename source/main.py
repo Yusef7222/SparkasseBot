@@ -1,6 +1,7 @@
 import discord
 from loguru import logger
 
+import json
 
 class Sparkasse:
     intents = None
@@ -12,10 +13,22 @@ class Sparkasse:
         async def on_message(self, message):
             if message.author == self.user:
                 return
+
+            if message.content.startswith('$register'):
+                with open('users.json', 'r') as users_data:
+                    data = json.load(users_data)
+
+                    if str(message.author.id) in data:
+                        await message.channel.send('User is already registered in database!')
+                    else:
+                        await message.channel.send('Registering user...')
+                        data[str(message.author.id)] = 123456
+                        with open('users.json', 'w') as users_data:
+                            json.dump(data, users_data)
+                            
+                        await message.channel.send('User registered!')
+
             
-            if message.content.startswith('$send'):
-                await message.channel.send('Sending money!')
-    
     def setup_intents(message_content_intent: bool) -> None:
         Sparkasse.intents = discord.Intents.default()
         Sparkasse.intents.message_content = message_content_intent
