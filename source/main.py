@@ -29,6 +29,25 @@ class Sparkasse:
                             
                         await message.channel.send('User registered!')
 
+                        if message.content.startswith('$Iban'):
+                            with open('users.json', 'r') as users_iban:
+                               iban_data = json.load(users_iban)
+
+                        if str(message.author.id) in iban_data:
+                            await message.channel.send('Your Iban is already in the database bruh!')
+                        else:
+                            await message.channel.send('Please write your Iban Number')
+                            def check(m):
+                                return m.author == message.author and m.channel == message.channel
+                            msg = await message.guild.client.wait_for('message', check=check)
+                            user_iban = msg.content
+                            
+                            iban_data[str(message.author.id)] = user_iban
+
+                            with open('users.json', 'w') as users_iban:
+                                json.dump(iban_data, users_iban)
+
+ 
             
     def setup_intents(message_content_intent: bool) -> None:
         Sparkasse.intents = discord.Intents.default()
