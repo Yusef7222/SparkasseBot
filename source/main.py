@@ -1,8 +1,5 @@
 import discord
 
-import json
-import sys
-
 class Sparkasse:
     intents = None
 
@@ -13,7 +10,7 @@ class Sparkasse:
         async def on_message(self, message):
             print(f'Message from {message.author}: {message.content}')
     
-    def setup_intens(message_content_intent: bool) -> None:
+    def setup_intents(message_content_intent: bool) -> None:
         Sparkasse.intents = discord.Intents.default()
         Sparkasse.intents.message_content = message_content_intent
 
